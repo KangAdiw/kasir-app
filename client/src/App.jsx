@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, ShoppingCart, Menu as MenuIcon } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, Menu as MenuIcon, Coffee } from "lucide-react";
 import PosPage from "./pages/PosPage";
 import TransactionPage from "./pages/TransactionPage";
 
+import ProductPage from "./pages/ProductPage";
 // 1. KOMPONEN SIDEBAR (Hanya muncul di Laptop/Desktop -> md:flex)
 function Sidebar() {
   const location = useLocation();
@@ -25,6 +26,11 @@ function Sidebar() {
         <Link to="/history" className={getLinkClass("/history")}>
           <LayoutDashboard size={20} />
           <span className="font-medium">Riwayat</span>
+        </Link>
+
+        <Link to="/products" className={getLinkClass("/products")}>
+          <Coffee size={20} />
+          <span className="font-medium">Produk</span>
         </Link>
       </nav>
     </aside>
@@ -49,6 +55,11 @@ function MobileBottomNav() {
         <LayoutDashboard size={24} className={location.pathname === "/history" ? "fill-current" : ""} />
         <span>Riwayat</span>
       </Link>
+
+      <Link to="/products" className={getLinkClass("/products")}>
+        <Coffee size={24} className={location.pathname === "/products" ? "fill-current" : ""} />
+        <span>Produk</span>
+      </Link>
     </nav>
   );
 }
@@ -65,6 +76,7 @@ function App() {
           <Routes>
             <Route path="/" element={<PosPage />} />
             <Route path="/history" element={<TransactionPage />} />
+            <Route path="/products" element={<ProductPage />} />
           </Routes>
         </main>
 

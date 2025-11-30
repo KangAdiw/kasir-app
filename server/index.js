@@ -59,6 +59,47 @@ app.get("/api/transactions", async (req, res) => {
   }
 });
 
+// 4. CREATE PRODUCT (Tambah Menu Baru)
+app.post("/api/products", async (req, res) => {
+  const { name, price, category, image } = req.body;
+  try {
+    const newProduct = await prisma.product.create({
+      data: { name, price, category, image },
+    });
+    res.status(201).json(newProduct);
+  } catch (error) {
+    res.status(500).json({ error: "Gagal menambah produk" });
+  }
+});
+
+// 5. UPDATE PRODUCT (Edit Menu)
+app.put("/api/products/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name, price, category, image } = req.body;
+  try {
+    const updatedProduct = await prisma.product.update({
+      where: { id: parseInt(id) },
+      data: { name, price, category, image },
+    });
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ error: "Gagal update produk" });
+  }
+});
+
+// 6. DELETE PRODUCT (Hapus Menu)
+app.delete("/api/products/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    await prisma.product.delete({
+      where: { id: parseInt(id) },
+    });
+    res.json({ message: "Produk dihapus" });
+  } catch (error) {
+    res.status(500).json({ error: "Gagal hapus produk" });
+  }
+});
+
 // Jalankan Server
 app.listen(PORT, () => {
   console.log(`🚀 Server Kasir jalan di http://localhost:${PORT}`);
